@@ -138,19 +138,22 @@ def compare_salaries():
 # Displays monthly and yearly breakdown of deductions based on salary
 def display_monthly_and_yearly_breakdown(salary):
     try:
+        # Calculate yearly tax and national insurance
         tax_yearly = calculate_tax(salary)
         ni_yearly = calculate_national_insurance(salary)
 
         # Asks for the student loan plan and calculates monthly deductions
         student_loan_plan = input("\nDo you have a student loan plan?\n\nPlan 1 : if you Started your course / dergree before 2012 \nPlan 2 : If you started your course between the 1st of september 2012 and 31st july 2023 \nPlan 3 : Post Graduate Loan\nPlan 4 : If you applied to student awards agency scotland\nPlan 5 : If you started your course on or after august 1st 2023\n\nEnter (Plan 1/2/3/4/5 or leave empty: ")
 
+        # Calculate monthly deductions for tax, national insurance, student loan, and take-home pay
         tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_monthly = calculate_monthly_deductions(salary, student_loan_plan)
 
-        # Formats numbers for display
+        # Format yearly numbers for display
         formatted_tax_yearly = format_large_number(tax_yearly)
         formatted_ni_yearly = format_large_number(ni_yearly)
         formatted_student_loan_yearly = format_large_number(student_loan_monthly * 12)
 
+        # Format monthly numbers for display
         formatted_tax_monthly = format_large_number(tax_monthly)
         formatted_ni_monthly = format_large_number(ni_monthly)
         formatted_student_loan_monthly = format_large_number(student_loan_monthly)
@@ -158,7 +161,7 @@ def display_monthly_and_yearly_breakdown(salary):
 
         total_yearly_deductions = tax_yearly + ni_yearly + (student_loan_monthly * 12)
 
-        # Displays breakdown of monthly and yearly deductions
+        # Display breakdown of monthly and yearly deductions
         print ("\n\033[1m\033[3m(---------------------------------)")
         print("\nMonthly Breakdown:")
         print(f"Income Tax Paid Monthly: £{formatted_tax_monthly}")
@@ -174,40 +177,55 @@ def display_monthly_and_yearly_breakdown(salary):
         print ("\n(---------------------------------)\033[0m ")
 
     except ValueError:
+        # Show an error message if a non-numeric value is entered for the salary
         print("Please enter a valid numerical salary.")
 
-# Main function for user interaction and program execution
 
+# Main function for user interaction and program execution
 def calculate_button_clicked():
     try:
+        # Get the salary entered in the GUI and convert it to a float
         salary = float(salary1_entry.get())
+
+        # Check if entered salary is valid (not negative)
         if salary < 0:
+            # Show an error message if the salary is negative and return
             messagebox.showerror("Error", "Please enter a valid salary amount.")
             return
 
+        # Calculate monthly deductions based on the entered salary
         tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_monthly = calculate_monthly_deductions(salary, student_loan_var1.get())
+
+        # Calculate annual deductions based on monthly deductions
         tax_annual = tax_monthly * 12
         ni_annual = ni_monthly * 12
         student_loan_annual = student_loan_monthly * 12
         take_home_pay_annual = take_home_pay_monthly * 12
 
+        # Update results in the GUI for the entered salary
         update_results(tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_monthly, tax_annual, ni_annual, student_loan_annual, take_home_pay_annual, 1)
 
     except ValueError:
+        # Show an error message if a non-numeric value is entered for the salary
         messagebox.showerror("Error", "Please enter a valid numerical salary.")
 
 def compare_salaries():
     try:
+        # Get the salary amounts entered in the GUI and convert them to floats
         salary_1 = float(salary1_entry.get())
         salary_2 = float(salary2_entry.get())
 
+        # Check if entered salaries are valid (not negative)
         if salary_1 < 0 or salary_2 < 0:
+            # Show an error message if salaries are negative and return
             messagebox.showerror("Error", "Please enter valid salary amounts.")
             return
 
+        # Calculate monthly deductions for both salaries
         tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly = calculate_monthly_deductions(salary_1, student_loan_var1.get())
         tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly = calculate_monthly_deductions(salary_2, student_loan_var2.get())
 
+        # Calculate annual deductions based on monthly deductions for both salaries
         tax_1_annual = tax_1_monthly * 12
         ni_1_annual = ni_1_monthly * 12
         student_loan_1_annual = student_loan_1_monthly * 12
@@ -218,72 +236,91 @@ def compare_salaries():
         student_loan_2_annual = student_loan_2_monthly * 12
         take_home_2_annual = take_home_2_monthly * 12
 
+        # Update results for both salaries in the GUI
         update_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly, tax_1_annual, ni_1_annual, student_loan_1_annual, take_home_1_annual, 1)
         update_results(tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly, tax_2_annual, ni_2_annual, student_loan_2_annual, take_home_2_annual, 2)
 
+        # Update the comparison results in the GUI
         update_comparison_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly, tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly)
 
     except ValueError:
+        # Show an error message if non-numeric values are entered for salaries
         messagebox.showerror("Error", "Please enter valid numerical salaries.")
 
-def update_results(tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_monthly, tax_annual, ni_annual, student_loan_annual, take_home_pay_annual, salary_number):
+def update_results(tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_monthly,
+                   tax_annual, ni_annual, student_loan_annual, take_home_pay_annual, salary_number):
+    # Check if it's the first or second salary to update the respective labels
     if salary_number == 1:
+        # Assigning labels for the first salary
         tax_result_label = tax_result_label_1
         ni_result_label = ni_result_label_1
         student_loan_result_label = student_loan_result_label_1
         take_home_result_label = take_home_result_label_1
     else:
+        # Assigning labels for the second salary
         tax_result_label = tax_result_label_2
         ni_result_label = ni_result_label_2
         student_loan_result_label = student_loan_result_label_2
         take_home_result_label = take_home_result_label_2
 
+    # Updating the labels with the calculated results for each salary
     tax_result_label.config(text=f"Income Tax\n(Annual): £{tax_annual:.2f}\n(Monthly): £{tax_monthly:.2f}")
     ni_result_label.config(text=f"National Insurance\n(Annual): £{ni_annual:.2f}\n(Monthly): £{ni_monthly:.2f}")
     student_loan_result_label.config(text=f"Student Loan\n(Annual): £{student_loan_annual:.2f}\n(Monthly): £{student_loan_monthly:.2f}")
     take_home_result_label.config(text=f"Take Home Pay\n(Annual): £{take_home_pay_annual:.2f}\n(Monthly): £{take_home_pay_monthly:.2f}")
 
-def update_comparison_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly, tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly):
+def update_comparison_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly,
+                              tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly):
+    # Calculate the monthly differences between the two salaries
     tax_diff_monthly = tax_1_monthly - tax_2_monthly
     ni_diff_monthly = ni_1_monthly - ni_2_monthly
     student_loan_diff_monthly = student_loan_1_monthly - student_loan_2_monthly
     take_home_diff_monthly = take_home_1_monthly - take_home_2_monthly
 
+    # Calculate the annual differences based on the monthly differences
     tax_diff_annual = tax_diff_monthly * 12
     ni_diff_annual = ni_diff_monthly * 12
     student_loan_diff_annual = student_loan_diff_monthly * 12
     take_home_diff_annual = take_home_diff_monthly * 12
 
-    tax_diff_label.config(text=f"Income Tax Difference\n(Monthly): £{tax_diff_monthly:.2f}\n(Annual): £{tax_diff_annual:.2f}")
-    ni_diff_label.config(text=f"National Insurance Difference\n(Monthly): £{ni_diff_monthly:.2f}\n(Annual): £{ni_diff_annual:.2f}")
-    student_loan_diff_label.config(text=f"Student Loan Difference\n(Monthly): £{student_loan_diff_monthly:.2f}\n(Annual): £{student_loan_diff_annual:.2f}")
-    take_home_diff_label.config(text=f"Take Home Pay Difference\n(Monthly): £{take_home_diff_monthly:.2f}\n(Annual): £{take_home_diff_annual:.2f}")
+    # Update the labels in the GUI with the calculated differences
+    tax_diff_label.config(
+        text=f"Income Tax Difference\n(Monthly): £{tax_diff_monthly:.2f}\n(Annual): £{tax_diff_annual:.2f}")
+    ni_diff_label.config(
+        text=f"National Insurance Difference\n(Monthly): £{ni_diff_monthly:.2f}\n(Annual): £{ni_diff_annual:.2f}")
+    student_loan_diff_label.config(
+        text=f"Student Loan Difference\n(Monthly): £{student_loan_diff_monthly:.2f}\n(Annual): £{student_loan_diff_annual:.2f}")
+    take_home_diff_label.config(
+        text=f"Take Home Pay Difference\n(Monthly): £{take_home_diff_monthly:.2f}\n(Annual): £{take_home_diff_annual:.2f}")
 
+# Creating the main application window
 root = tk.Tk()
-root.title("Salary Deductions Calculator")
+root.title("Salary Deductions Calculator")  # Setting the window title
 
 # First Salary Section
-salary1_frame = tk.Frame(root)
-salary1_frame.pack(side=tk.LEFT, padx=10, pady=10)
+salary1_frame = tk.Frame(root)  # Creating a frame for the first salary section
+salary1_frame.pack(side=tk.LEFT, padx=10, pady=10)  # Packing the frame to the left with padding
 
-salary1_label = tk.Label(salary1_frame, text="First Salary")
-salary1_label.pack()
+# Widgets for the first salary section
+salary1_label = tk.Label(salary1_frame, text="First Salary")  # Label for the first salary
+salary1_label.pack()  # Packing the label into the frame
 
-salary1_entry = tk.Entry(salary1_frame)
-salary1_entry.pack()
+salary1_entry = tk.Entry(salary1_frame)  # Entry field for entering the first salary
+salary1_entry.pack()  # Packing the entry field
 
 student_loan_var1 = tk.StringVar()
-student_loan_var1.set("None")
+student_loan_var1.set("None")  # Variable to store the selected student loan plan
 
-student_loan1_label = tk.Label(salary1_frame, text="Student Loan Plan:")
-student_loan1_label.pack()
+student_loan1_label = tk.Label(salary1_frame, text="Student Loan Plan:")  # Label for student loan selection
+student_loan1_label.pack()  # Packing the label
 
 student_loan_menu1 = tk.OptionMenu(salary1_frame, student_loan_var1, "None", "1", "2", "Post Graduate", "4", "5")
-student_loan_menu1.pack()
+student_loan_menu1.pack()  # Packing the student loan menu
 
 calculate_button = tk.Button(salary1_frame, text="Calculate", command=calculate_button_clicked)
-calculate_button.pack()
+calculate_button.pack()  # Packing the 'Calculate' button
 
+# Labels to display calculated results
 tax_result_label_1 = tk.Label(salary1_frame, text="Income Tax (Monthly): ")
 tax_result_label_1.pack()
 
@@ -297,9 +334,10 @@ take_home_result_label_1 = tk.Label(salary1_frame, text="Take Home Pay (Monthly)
 take_home_result_label_1.pack()
 
 # Comparison and Second Salary Section
-comparison_frame = tk.Frame(root)
-comparison_frame.pack(side=tk.LEFT, padx=10, pady=10)
+comparison_frame = tk.Frame(root)  # Frame for displaying the comparison between salaries
+comparison_frame.pack(side=tk.LEFT, padx=10, pady=10)  # Packing the frame
 
+# Labels for displaying differences between salaries
 comparison_label = tk.Label(comparison_frame, text="Difference")
 comparison_label.pack()
 
@@ -316,27 +354,29 @@ take_home_diff_label = tk.Label(comparison_frame, text="Take Home Pay Difference
 take_home_diff_label.pack()
 
 # Second Salary Section
-salary2_frame = tk.Frame(root)
-salary2_frame.pack(side=tk.LEFT, padx=10, pady=10)
+salary2_frame = tk.Frame(root)  # Frame for the second salary section
+salary2_frame.pack(side=tk.LEFT, padx=10, pady=10)  # Packing the frame
 
-salary2_label = tk.Label(salary2_frame, text="Second Salary")
-salary2_label.pack()
+# Widgets for the second salary section
+salary2_label = tk.Label(salary2_frame, text="Second Salary")  # Label for the second salary
+salary2_label.pack()  # Packing the label
 
-salary2_entry = tk.Entry(salary2_frame)
-salary2_entry.pack()
+salary2_entry = tk.Entry(salary2_frame)  # Entry field for entering the second salary
+salary2_entry.pack()  # Packing the entry field
 
 student_loan_var2 = tk.StringVar()
-student_loan_var2.set("None")
+student_loan_var2.set("None")  # Variable to store the selected student loan plan for the second salary
 
-student_loan2_label = tk.Label(salary2_frame, text="Student Loan Plan:")
-student_loan2_label.pack()
+student_loan2_label = tk.Label(salary2_frame, text="Student Loan Plan:")  # Label for student loan selection
+student_loan2_label.pack()  # Packing the label
 
 student_loan_menu2 = tk.OptionMenu(salary2_frame, student_loan_var2, "None", "1", "2", "Post Graduate", "4", "5")
-student_loan_menu2.pack()
+student_loan_menu2.pack()  # Packing the student loan menu
 
 compare_button = tk.Button(salary2_frame, text="Compare Salaries", command=compare_salaries)
-compare_button.pack()
+compare_button.pack()  # Packing the 'Compare Salaries' button
 
+# Labels to display calculated results for the second salary
 tax_result_label_2 = tk.Label(salary2_frame, text="Income Tax (Monthly): ")
 tax_result_label_2.pack()
 
@@ -349,4 +389,4 @@ student_loan_result_label_2.pack()
 take_home_result_label_2 = tk.Label(salary2_frame, text="Take Home Pay (Monthly): ")
 take_home_result_label_2.pack()
 
-root.mainloop()
+root.mainloop()  # Running the main event loop for the application
