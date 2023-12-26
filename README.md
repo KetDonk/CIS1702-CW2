@@ -1,4 +1,4 @@
-# Functionality Overview
+# Functionality Overview 
 ## Features
 - Tax Calculations: Comprehensive tax computations.
 - National Insurance Calculations: Accurate calculations for national insurance contributions.
@@ -6,9 +6,6 @@
 - Salary Comparison: Facilitates easy salary comparison.
 - Monthly Deduction Breakdown: Provides a detailed breakdown of monthly deductions.
 - Actual Tax Payable: Calculates the real amount of tax to be paid.
-
-- ## Limitations
-- Menu Interface: Lacks a user-friendly menu system.
 
 ## Team members
 - Callum Poskitt
