@@ -264,10 +264,10 @@ def update_results(tax_monthly, ni_monthly, student_loan_monthly, take_home_pay_
         take_home_result_label = take_home_result_label_2
 
     # Updating the labels with the calculated results for each salary
-    tax_result_label.config(text=f"Income Tax\n(Annual): £{tax_annual:.2f}\n(Monthly): £{tax_monthly:.2f}")
-    ni_result_label.config(text=f"National Insurance\n(Annual): £{ni_annual:.2f}\n(Monthly): £{ni_monthly:.2f}")
-    student_loan_result_label.config(text=f"Student Loan\n(Annual): £{student_loan_annual:.2f}\n(Monthly): £{student_loan_monthly:.2f}")
-    take_home_result_label.config(text=f"Take Home Pay\n(Annual): £{take_home_pay_annual:.2f}\n(Monthly): £{take_home_pay_monthly:.2f}")
+    tax_result_label.config(text=f"Income Tax\n(Annual): £{format_large_number(tax_annual)}\n(Monthly): £{format_large_number(tax_monthly)}")
+    ni_result_label.config(text=f"National Insurance\n(Annual): £{format_large_number(ni_annual)}\n(Monthly): £{format_large_number(ni_monthly)}")
+    student_loan_result_label.config(text=f"Student Loan\n(Annual): £{format_large_number(student_loan_annual)}\n(Monthly): £{format_large_number(student_loan_monthly)}")
+    take_home_result_label.config(text=f"Take Home Pay\n(Annual): £{format_large_number(take_home_pay_annual)}\n(Monthly): £{format_large_number(take_home_pay_monthly)}")
 
 def update_comparison_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthly, take_home_1_monthly,
                               tax_2_monthly, ni_2_monthly, student_loan_2_monthly, take_home_2_monthly):
@@ -285,13 +285,13 @@ def update_comparison_results(tax_1_monthly, ni_1_monthly, student_loan_1_monthl
 
     # Update the labels in the GUI with the calculated differences
     tax_diff_label.config(
-        text=f"Income Tax Difference\n(Monthly): £{tax_diff_monthly:.2f}\n(Annual): £{tax_diff_annual:.2f}")
+        text=f"Income Tax Difference\n(Monthly): £{format_large_number(tax_diff_monthly)}\n(Annual): £{format_large_number(tax_diff_annual)}")
     ni_diff_label.config(
-        text=f"National Insurance Difference\n(Monthly): £{ni_diff_monthly:.2f}\n(Annual): £{ni_diff_annual:.2f}")
+        text=f"National Insurance Difference\n(Monthly): £{format_large_number(ni_diff_monthly)}\n(Annual): £{format_large_number(ni_diff_annual)}")
     student_loan_diff_label.config(
-        text=f"Student Loan Difference\n(Monthly): £{student_loan_diff_monthly:.2f}\n(Annual): £{student_loan_diff_annual:.2f}")
+         text=f"Student Loan Difference\n(Monthly): £{format_large_number(student_loan_diff_monthly)}\n(Annual): £{format_large_number(student_loan_diff_annual)}")
     take_home_diff_label.config(
-        text=f"Take Home Pay Difference\n(Monthly): £{take_home_diff_monthly:.2f}\n(Annual): £{take_home_diff_annual:.2f}")
+        text=f"Take Home Pay Difference\n(Monthly): £{format_large_number(take_home_diff_monthly)}\n(Annual): £{format_large_number(take_home_diff_annual)}")
 
 # Creating the main application window
 root = tk.Tk()
