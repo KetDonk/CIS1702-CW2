@@ -95,6 +95,7 @@ def calculate_student_loan(salary, plan=None):
 
     return 0  # Return 0 if no valid plan or if salary is below the repayment threshold
 
+
 # Formats large numbers to a currency format
 def format_large_number(num):
     return f"{num:,.2f}"  # Format the number to have commas for thousands and two decimal places
@@ -314,7 +315,7 @@ student_loan_var1.set("None")  # Variable to store the selected student loan pla
 student_loan1_label = tk.Label(salary1_frame, text="Student Loan Plan:")  # Label for student loan selection
 student_loan1_label.pack()  # Packing the label
 
-student_loan_menu1 = tk.OptionMenu(salary1_frame, student_loan_var1, "None", "1", "2", "Post Graduate", "4", "5")
+student_loan_menu1 = tk.OptionMenu(salary1_frame, student_loan_var1, "None", "1", "2", "3", "4", "5")
 student_loan_menu1.pack()  # Packing the student loan menu
 
 calculate_button = tk.Button(salary1_frame, text="Calculate", command=calculate_button_clicked)
@@ -370,7 +371,7 @@ student_loan_var2.set("None")  # Variable to store the selected student loan pla
 student_loan2_label = tk.Label(salary2_frame, text="Student Loan Plan:")  # Label for student loan selection
 student_loan2_label.pack()  # Packing the label
 
-student_loan_menu2 = tk.OptionMenu(salary2_frame, student_loan_var2, "None", "1", "2", "Post Graduate", "4", "5")
+student_loan_menu2 = tk.OptionMenu(salary2_frame, student_loan_var2, "None", "1", "2", "3", "4", "5")
 student_loan_menu2.pack()  # Packing the student loan menu
 
 compare_button = tk.Button(salary2_frame, text="Compare Salaries", command=compare_salaries)
